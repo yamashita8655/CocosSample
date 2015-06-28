@@ -1,0 +1,73 @@
+<Solution>
+  <PropertyGroup Name="SlideGame" Version="2.2.5.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="MainScene.csd" Type="Scene" />
+        <Image Name="HelloWorld.png" />
+        <Folder Name="StageSelect">
+          <Project Name="StageSelectScene.csd" Type="Scene" />
+          <Image Name="stage_icon.png" />
+        </Folder>
+        <Folder Name="CharacterSelect">
+          <Image Name="character1.png" />
+          <Image Name="character2.png" />
+          <Image Name="character3.png" />
+          <Image Name="character4.png" />
+          <Project Name="CharacterSelectScene.csd" Type="Scene" />
+        </Folder>
+        <Folder Name="GameScene">
+          <Image Name="background.png" />
+          <Project Name="GameScene.csd" Type="Scene" />
+          <Image Name="movecharacter2.png" />
+          <Image Name="movecharacter1.png" />
+          <Image Name="movecharacter3.png" />
+          <Image Name="movecharacter4.png" />
+          <Image Name="exp.png" />
+          <Image Name="goalchip.png" />
+          <Image Name="startchip.png" />
+          <Image Name="life_off.png" />
+          <Image Name="life_on.png" />
+          <Image Name="trap1.png" />
+          <Image Name="cloud.png" />
+          <Folder Name="Stage1">
+            <Project Name="Stage1_1.csd" Type="Scene" />
+            <Project Name="Stage1_2.csd" Type="Scene" />
+            <Project Name="Stage1_3.csd" Type="Scene" />
+            <Project Name="Stage1Parameter.csd" Type="Scene" />
+          </Folder>
+          <Project Name="ClearInformation.csd" Type="Scene" />
+          <Image Name="failed.png" />
+          <Image Name="again.png" />
+          <Image Name="yes.png" />
+          <Image Name="no.png" />
+          <Image Name="filterblack.png" />
+          <Image Name="area1.png" />
+          <Image Name="area2.png" />
+          <Image Name="area3.png" />
+          <Project Name="FailedInformation.csd" Type="Scene" />
+          <Image Name="ok.png" />
+          <Image Name="clear.png" />
+          <Folder Name="Stage2">
+            <Project Name="Stage2_1.csd" Type="Scene" />
+            <Project Name="Stage2_2.csd" Type="Scene" />
+            <Project Name="Stage2_3.csd" Type="Scene" />
+            <Project Name="Stage2Parameter.csd" Type="Scene" />
+          </Folder>
+          <Folder Name="Stage3">
+            <Project Name="Stage3_1.csd" Type="Scene" />
+            <Project Name="Stage3_2.csd" Type="Scene" />
+            <Project Name="Stage3_3.csd" Type="Scene" />
+            <Project Name="Stage3Parameter.csd" Type="Scene" />
+          </Folder>
+          <Image Name="blueTrapBreak.png" />
+          <Image Name="greenTrapBreak.png" />
+          <Image Name="redTrapBreak.png" />
+          <Image Name="trapColorBlue.png" />
+          <Image Name="trapColorGreen.png" />
+          <Image Name="trapColorRed.png" />
+        </Folder>
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
