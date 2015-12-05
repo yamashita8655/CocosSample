@@ -47,9 +47,12 @@ private:
 
 private:
 	std::vector<SpawnObject*> mSpawnObjectVector;
+	cocos2d::CallFunc* mEndSpawnObjectCallback;
 
 public:
-//	void CreateSpawnObject(cocos2d::Node* scene, int posx, int posy);
+	void setEndSpawnObjectCallback(cocos2d::CallFunc* call);
+	
+	//	void CreateSpawnObject(cocos2d::Node* scene, int posx, int posy);
 	void CheckHitObject(cocos2d::Node* scene, Rect rect);
 
 	void AddSpawnObject(SpawnObject* obj);

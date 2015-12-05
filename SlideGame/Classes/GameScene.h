@@ -46,6 +46,14 @@ enum class GAME_STATE : int
 	MOVE_CHARACTER_END,
 };
 
+enum class GAME_STATE2 : int
+{
+	STARTUP,
+	LOAD_STAGE,
+	DISPLAY_AREA_TEXT,
+	SPAWN_OBJECT,
+};
+
 enum class GAME_LAYER : int
 {
 	STAGE_LAYER = 10,

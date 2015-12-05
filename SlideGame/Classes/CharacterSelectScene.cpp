@@ -3,10 +3,12 @@
 #include "Utility.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
+#include "Utility/SceneManager.h"
 
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+using namespace ui;
 
 Scene* CharacterSelectScene::createScene()
 {
@@ -36,9 +38,29 @@ bool CharacterSelectScene::init()
     auto rootNode = CSLoader::createNode("res/CharacterSelect/CharacterSelectScene.csb");
 
     addChild(rootNode);
-    
+
+	mPageView = dynamic_cast<ui::PageView*>(rootNode->getChildByName("PageView_1"));
+	//pageView->addEventListenerPageView(this, pagevieweventselector(CharacterSelectScene::pageviewCallBack));
+
+	auto selectbutton1 = dynamic_cast<ui::Button*>(rootNode->getChildByName("Button_select"));
+	struct callBackFunctor1 {
+		void operator() (Ref* sender) const {
+			auto basescene = Director::getInstance()->getRunningScene();
+			CharacterSelectScene* gamescene = (CharacterSelectScene*)basescene->getChildren().at(1);
+			int page = gamescene->mPageView->getCurPageIndex();
+			GlobalValue::getInstance().SetCharaId(page+1);
+//			Director::getInstance()->replaceScene(GameScene::createScene());
+			SceneManager::getInstance().replaceScene(SCENE_NAME::GAME);
+			SceneManager::getInstance().pushLayer(LAYER_NAME_GAME);
+		}
+	};
+
+	ui::Widget::ccWidgetClickCallback callback1 = callBackFunctor1();
+	selectbutton1->addClickEventListener(callback1);
+
+
 	// 
-	auto charabutton1 = dynamic_cast<ui::Button*>(rootNode->getChildByName("Button_1"));
+/*	auto charabutton1 = dynamic_cast<ui::Button*>(rootNode->getChildByName("Button_1"));
 	struct callBackFunctor1 {
         void operator() (Ref* sender) const {
 			GlobalValue::getInstance().SetCharaId(1);
@@ -87,7 +109,21 @@ bool CharacterSelectScene::init()
 	};
 
 	ui::Widget::ccWidgetClickCallback callback4 = callBackFunctor4();
-	charabutton4->addClickEventListener(callback4);
+	charabutton4->addClickEventListener(callback4);*/
 
     return true;
+}
+
+void CharacterSelectScene::pageviewCallBack(cocos2d::Ref* psender, cocos2d::ui::PageViewEventType type)
+{
+	if (type == ui::PAGEVIEW_EVENT_TURNING){
+		auto pageView = dynamic_cast<ui::PageView*>(psender);
+		//選択されているページをログに出力
+		log("%ld", pageView->getCurPageIndex() + 1);
+	}
+}
+
+void CharacterSelectScene::onExit()
+{
+	Layer::onExit();
 }

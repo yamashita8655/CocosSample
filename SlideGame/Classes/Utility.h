@@ -47,6 +47,17 @@ private:
 	int mAreaId;
 	int mStageValue;
 
+	bool mStartPointCheck;
+	bool mGoalPointCheck;
+	float mMaxTime;
+	float mTimeCounter;
+	
+	cocos2d::Node* mStageNode;
+	cocos2d::Node* mRootNode;
+	
+	float mMaxDistance;
+	float mNowDistance;
+
 public:
 	void SetCharaId(int id){ mCharaId = id; }
 	int GetCharaId(){ return mCharaId; }
@@ -70,6 +81,47 @@ public:
 
 	void SetStageValue(int value){ mStageValue = value; }
 	int GetStageValue(){ return mStageValue; }
+
+	void setStartPointCheck(bool value);
+	bool getStartPointCheck();
+	
+	void setGoalPointCheck(bool value);
+	bool getGoalPointCheck();
+	
+	void setMaxTime(float value);
+	float getMaxTime();
+	
+	void setTimeCounter(float value);
+	float getTimeCounter();
+
+	void setStageNode(cocos2d::Node* node);
+	cocos2d::Node* getStageNode();
+	
+	void setMaxDistance(float value);
+	float getMaxDistance();
+	
+	void setNowDistance(float value);
+	float getNowDistance();
+	
+	void setRootNode(cocos2d::Node* node);
+	cocos2d::Node* getRootNode();
+
+};
+
+class Utility
+{
+public:
+	static Utility &getInstance();
+
+private:
+	Utility(){};
+	Utility(const Utility &other){}
+	Utility &operator=(const Utility &other){}
+
+private:
+
+public:
+	ValueVector split(const std::string &str, const std::string &delim);
 };
 
 

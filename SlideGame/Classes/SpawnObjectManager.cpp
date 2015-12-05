@@ -31,6 +31,12 @@ SpawnObjectManager &SpawnObjectManager::getInstance() {
 	mSpawnObjectVector.push_back(obj);
 }*/
 
+void SpawnObjectManager::setEndSpawnObjectCallback(cocos2d::CallFunc* call)
+{
+	mEndSpawnObjectCallback = call;
+}
+
+
 void SpawnObjectManager::CheckHitObject(cocos2d::Node* scene, Rect rect)
 {
 	auto it = mSpawnObjectVector.begin();
@@ -66,8 +72,9 @@ void SpawnObjectManager::CheckHitObject(cocos2d::Node* scene, Rect rect)
 			else if ((*it)->GetType() == SPAWNOBJECT_TYPE::TRAP_RED_SPIKE_BREAK)
 			{
 				scene->removeChild((*it)->GetSprite());
+				auto delObj = (*it);
 				mSpawnObjectVector.erase(it);
-				delete (*it);
+				delete delObj;
 				RemoveRedSpikeTrap(scene);
 				it = mSpawnObjectVector.begin();
 				continue;
@@ -75,8 +82,9 @@ void SpawnObjectManager::CheckHitObject(cocos2d::Node* scene, Rect rect)
 			else if ((*it)->GetType() == SPAWNOBJECT_TYPE::TRAP_GREEN_SPIKE_BREAK)
 			{
 				scene->removeChild((*it)->GetSprite());
+				auto delObj = (*it);
 				mSpawnObjectVector.erase(it);
-				delete (*it);
+				delete delObj;
 				RemoveGreenSpikeTrap(scene);
 				it = mSpawnObjectVector.begin();
 				continue;
@@ -84,8 +92,9 @@ void SpawnObjectManager::CheckHitObject(cocos2d::Node* scene, Rect rect)
 			else if ((*it)->GetType() == SPAWNOBJECT_TYPE::TRAP_BLUE_SPIKE_BREAK)
 			{
 				scene->removeChild((*it)->GetSprite());
+				auto delObj = (*it);
 				mSpawnObjectVector.erase(it);
-				delete (*it);
+				delete delObj;
 				RemoveBlueSpikeTrap(scene);
 				it = mSpawnObjectVector.begin();
 				continue;
@@ -209,13 +218,20 @@ void SpawnObjectManager::CreateSpawnObjectAction(int index)
 		}
 		else
 		{
-			// Visible‚ðTrue‚É‚·‚é‚Ì‚Í‰¼
+			// Visibleã‚’Trueã«ã™ã‚‹ã®ã¯ä»®
 			auto vec =  this->GetSpawnObjectVector();
 			for (int i = 0; i < vec.size(); i++)
 			{
 				vec.at(i)->GetSprite()->setVisible(true);
 			}
-			GameScene::Endfunction();
+
+			if (mEndSpawnObjectCallback != nullptr)
+			{
+				mEndSpawnObjectCallback->execute();
+				mEndSpawnObjectCallback->release();
+				mEndSpawnObjectCallback = nullptr;
+			}
+			//GameScene::Endfunction();
 		}
 	});
 

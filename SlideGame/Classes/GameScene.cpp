@@ -5,6 +5,17 @@
 #include "ui/CocosGUI.h"
 #include "StageSelectScene.h"
 
+#include "Utility/StateBase.h"
+#include "Utility/StateMachine.h"
+#include "Utility/StateMachineManager.h"
+#include "Utility/StateMachineManager_define.h"
+#include "Utility/SceneManager.h"
+
+#include "State/Game/GameState_StartUp.h"
+#include "State/Game/GameState_LoadStage.h"
+#include "State/Game/GameState_DisplayAreaText.h"
+#include "State/Game/GameState_SpawnObject.h"
+
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
@@ -43,21 +54,25 @@ bool GameScene::init()
 
 	scheduleUpdate();
 	mGameState = GAME_STATE::LOAD_STAGE_INIT;
+	GlobalValue::getInstance().setNowDistance(0.0f);
+	GlobalValue::getInstance().setMaxDistance(3000.0f);
 	mNowDistance = 0.0f;
 	mMaxDistance = 3000.0f;
 
-	auto stageString = StringUtils::format("res/GameScene/Stage%d/Stage%dParameter.csb", GlobalValue::getInstance().GetStageId(), GlobalValue::getInstance().GetStageId());
-	auto stageParameter = CSLoader::createNode(stageString);
-	auto stageValue = dynamic_cast<ui::Text*>(stageParameter->getChildByName("StageValue"));
-	GlobalValue::getInstance().SetStageValue(std::atoi(stageValue->getString().c_str()));
+	//auto stageString = StringUtils::format("res/GameScene/Stage%d/Stage%dParameter.csb", GlobalValue::getInstance().GetStageId(), GlobalValue::getInstance().GetStageId());
+	//auto stageParameter = CSLoader::createNode(stageString);
+	//auto stageValue = dynamic_cast<ui::Text*>(stageParameter->getChildByName("StageValue"));
+	//GlobalValue::getInstance().SetStageValue(std::atoi(stageValue->getString().c_str()));
 
 	mRootNode = CSLoader::createNode("res/GameScene/GameScene.csb");
-	addChild(mRootNode, (int)GAME_LAYER::STAGE_FRONT_LAYER);
+	GlobalValue::getInstance().setRootNode(mRootNode);
+	auto nowScene = SceneManager::getInstance().getNowScene();
+	nowScene->addChild(mRootNode, (int)GAME_LAYER::STAGE_FRONT_LAYER);
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto spriteName = StringUtils::format("GameScene/movecharacter%d.png", GlobalValue::getInstance().GetCharaId());
+/*	auto spriteName = StringUtils::format("GameScene/movecharacter%d.png", GlobalValue::getInstance().GetCharaId());
 	mCharaSprite = Sprite::create(spriteName.c_str());
 	mCharaSprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 	this->addChild(mCharaSprite, (int)GAME_LAYER::MOVE_CHARA_LAYER);
@@ -67,7 +82,7 @@ bool GameScene::init()
 		auto buttonName = StringUtils::format("life_%d", i + 1);
 		auto button = dynamic_cast<ui::Button*>(mRootNode->getChildByName(buttonName));
 		mCharacterLifeButton.push_back(button);
-	}
+	}*/
 
 /*	for (int i = 0; i < 20; i++)
 	{
@@ -93,7 +108,7 @@ bool GameScene::init()
     
 	ui::Widget::ccWidgetClickCallback callback = callBackFunctor();
     button1->addClickEventListener(callback);*/
-
+#if 0
 	mCountDownTimeText = dynamic_cast<ui::Text*>(mRootNode->getChildByName("Text_countdown"));
 
 	auto listener = EventListenerTouchOneByOne::create();
@@ -161,12 +176,23 @@ bool GameScene::init()
 	};
 
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+#endif
+	StateMachineManager::getInstance().init();
+	
+	StateMachineManager::getInstance().addState(STATEMACHINE_NAME::GAME, (int)GAME_STATE2::STARTUP,				new GameState_StartUp());
+	StateMachineManager::getInstance().addState(STATEMACHINE_NAME::GAME, (int)GAME_STATE2::LOAD_STAGE,			new GameState_LoadStage());
+	StateMachineManager::getInstance().addState(STATEMACHINE_NAME::GAME, (int)GAME_STATE2::DISPLAY_AREA_TEXT,	new GameState_DisplayAreaText());
+	StateMachineManager::getInstance().addState(STATEMACHINE_NAME::GAME, (int)GAME_STATE2::SPAWN_OBJECT,		new GameState_SpawnObject());
+
+	StateMachineManager::getInstance().changeState(STATEMACHINE_NAME::GAME, (int)GAME_STATE2::STARTUP);
 
     return true;
 }
 
 void GameScene::update(float delta)
 {
+	StateMachineManager::getInstance().update(STATEMACHINE_NAME::GAME, delta);
+#if 0
 	if (mGameState == GAME_STATE::LOAD_STAGE_INIT)
 	{
 		LoadStageInit();
@@ -281,7 +307,7 @@ void GameScene::update(float delta)
 	{
 		ClearInformationEnd();
 	}
-
+#endif
 }
 
 void GameScene::UpdateLifePointButton()
@@ -738,7 +764,7 @@ void GameScene::MoveCharacterEnd()
 	}
 	else
 	{
-		// –{—ˆ‚Í‚±‚±‚ÅƒNƒŠƒA‚©‚Ç‚¤‚©‚Ì”»’è‚ª“ü‚é
+		// æœ¬æ¥ã¯ã“ã“ã§ã‚¯ãƒªã‚¢ã‹ã©ã†ã‹ã®åˆ¤å®šãŒå…¥ã‚‹
 		GlobalValue::getInstance().SetAreaId(GlobalValue::getInstance().GetAreaId() + 1);
 		if (GlobalValue::getInstance().GetAreaId() > GlobalValue::getInstance().GetStageValue())
 		{

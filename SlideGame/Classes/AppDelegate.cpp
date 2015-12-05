@@ -1,6 +1,10 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "TestScene.h"
 #include "StageSelectScene.h"
+#include "CharacterSelectScene.h"
+
+#include "Utility/StateMachineManager.h"
+#include "Utility/SceneManager.h"
 
 USING_NS_CC;
 
@@ -42,11 +46,20 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     FileUtils::getInstance()->addSearchPath("res");
 
+	StateMachineManager::getInstance().init();
+	StateMachineManager::getInstance().createStateMachineMap();
+
     // create a scene. it's an autorelease object
-	auto scene = StageSelectScene::createScene();
+	SceneManager::getInstance().init();
+	SceneManager::getInstance().runScene(SCENE_NAME::STAGE_SELECT);
+	SceneManager::getInstance().pushLayer(LAYER_NAME_STAGE_SELECT);
+
+//	auto scene = StageSelectScene::createScene();
+//	auto scene = TestScene::createScene();
+//	auto scene = CharacterSelectScene::createScene();
 
     // run
-    director->runWithScene(scene);
+//    director->runWithScene(scene);
 
     return true;
 }

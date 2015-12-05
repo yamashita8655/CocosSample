@@ -1,5 +1,5 @@
 <Solution>
-  <PropertyGroup Name="SlideGame" Version="2.2.5.0" Type="CocosStudio" />
+  <PropertyGroup Name="SlideGame" Version="2.3.3.0" Type="CocosStudio" />
   <SolutionFolder>
     <Group ctype="ResourceGroup">
       <RootFolder Name=".">
@@ -57,8 +57,8 @@
           <Folder Name="Stage3">
             <Project Name="Stage3_1.csd" Type="Scene" />
             <Project Name="Stage3_2.csd" Type="Scene" />
-            <Project Name="Stage3_3.csd" Type="Scene" />
             <Project Name="Stage3Parameter.csd" Type="Scene" />
+            <Project Name="Stage3_3.csd" Type="Scene" />
           </Folder>
           <Image Name="blueTrapBreak.png" />
           <Image Name="greenTrapBreak.png" />
@@ -66,6 +66,9 @@
           <Image Name="trapColorBlue.png" />
           <Image Name="trapColorGreen.png" />
           <Image Name="trapColorRed.png" />
+        </Folder>
+        <Folder Name="TestScene">
+          <Project Name="Scene.csd" Type="Scene" />
         </Folder>
       </RootFolder>
     </Group>

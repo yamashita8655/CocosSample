@@ -3,6 +3,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "Utility.h"
 #include "ui/CocosGUI.h"
+#include "Utility/SceneManager.h"
 
 USING_NS_CC;
 
@@ -47,7 +48,9 @@ bool StageSelectScene::init()
 			int num = std::atoi(stageNumber->getString().c_str());
 
 			GlobalValue::getInstance().SetStageId(num);
-			Director::getInstance()->replaceScene(TransitionRotoZoom::create(2.0f, CharacterSelectScene::createScene()));
+			//Director::getInstance()->replaceScene(TransitionRotoZoom::create(2.0f, CharacterSelectScene::createScene()));
+			SceneManager::getInstance().replaceScene(SCENE_NAME::CHARACTER_SELECT);
+			SceneManager::getInstance().pushLayer(LAYER_NAME_CHARACTER_SELECT);
 		}
 	};
 
